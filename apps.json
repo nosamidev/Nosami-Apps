@@ -1,0 +1,24 @@
+[
+  {
+    "id": "sample-cafe-pos",
+    "name": "Sample Cafe POS",
+    "tagline": "A simple offline-first point of sale for small cafes.",
+    "description": "Sample Cafe POS helps small cafe owners manage orders, receipts, and daily sales from an Android phone. This placeholder app keeps the Nosami Apps showcase populated while the real app catalog is prepared.",
+    "category": "Business",
+    "icon": "\u2615",
+    "iconUrl": "",
+    "package": "com.nosamiapps.samplecafepos",
+    "playUrl": "https://play.google.com/store/apps/details?id=com.nosamiapps.samplecafepos",
+    "status": "live",
+    "rating": "4.5",
+    "installs": "500+",
+    "screenshots": [],
+    "features": [
+      "Create and manage cafe orders",
+      "Track daily sales and shifts",
+      "Works offline on Android devices"
+    ],
+    "privacyUrl": "privacy.html",
+    "addedDate": "2025-06-08"
+  }
+]

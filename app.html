@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App - Nosami Apps</title>
+  <meta name="description" content="Nosami Apps Android app details." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a class="nav-logo" href="index.html">Nosami<span>.</span></a>
+      <div class="nav-links" aria-label="Primary navigation">
+        <a href="index.html">Back to all apps</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="detail-wrap" id="detailRoot" aria-live="polite"></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <a class="footer-brand" href="index.html">Nosami<span>.</span></a>
+        <p>Building practical Android apps.</p>
+      </div>
+      <div class="footer-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const detailRoot = document.getElementById("detailRoot");
+    const params = new URLSearchParams(window.location.search);
+    const appId = params.get("id");
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function appIcon(app) {
+      if (app.iconUrl) {
+        return `<img src="${escapeHtml(app.iconUrl)}" alt="" loading="lazy" />`;
+      }
+      return `<span>${escapeHtml(app.icon || "")}</span>`;
+    }
+
+    function renderScreenshots(app) {
+      if (!Array.isArray(app.screenshots) || app.screenshots.length === 0) {
+        return `<div class="detail-screenshots"><div class="screenshot-empty">No screenshots yet</div></div>`;
+      }
+      const images = app.screenshots.map((url) => (
+        `<img src="${escapeHtml(url)}" alt="${escapeHtml(app.name)} screenshot" loading="lazy" />`
+      )).join("");
+      return `<div class="detail-screenshots">${images}</div>`;
+    }
+
+    function renderFeatures(app) {
+      if (!Array.isArray(app.features) || app.features.length === 0) {
+        return "<p>No feature list has been added yet.</p>";
+      }
+      return `<ul class="feature-list">${app.features.map((feature) => `<li>${escapeHtml(feature)}</li>`).join("")}</ul>`;
+    }
+
+    function renderNotFound() {
+      document.title = "App not found - Nosami Apps";
+      detailRoot.innerHTML = `
+        <section class="empty-state">
+          <h1>App not found</h1>
+          <p>That app could not be found in the Nosami Apps catalog.</p>
+          <a class="btn btn-primary" href="index.html">Back to all apps</a>
+        </section>
+      `;
+    }
+
+    function renderApp(app) {
+      document.title = `${app.name} - Nosami Apps`;
+      detailRoot.innerHTML = `
+        <section class="detail-panel">
+          <div class="detail-title">
+            <div class="app-icon">${appIcon(app)}</div>
+            <div>
+              <h1>${escapeHtml(app.name)}</h1>
+              <p class="detail-tagline">${escapeHtml(app.tagline)}</p>
+              <div class="meta-row">
+                <span class="badge ${app.status === "live" ? "badge-live" : "badge-soon"}">${app.status === "live" ? "Live" : "Coming soon"}</span>
+                ${app.rating ? `<span class="meta-pill">${escapeHtml(app.rating)} rating</span>` : ""}
+                ${app.installs ? `<span class="meta-pill">${escapeHtml(app.installs)} installs</span>` : ""}
+              </div>
+              <div class="app-actions">
+                <a class="btn btn-primary" href="${escapeHtml(app.playUrl)}" target="_blank" rel="noopener">Get on Google Play</a>
+                <a class="btn btn-outline" href="${escapeHtml(app.privacyUrl || "privacy.html")}">Privacy Policy</a>
+              </div>
+            </div>
+          </div>
+          ${renderScreenshots(app)}
+        </section>
+
+        <section class="content-section">
+          <h2>About</h2>
+          <p>${escapeHtml(app.description)}</p>
+        </section>
+
+        <section class="content-section">
+          <h2>Features</h2>
+          ${renderFeatures(app)}
+        </section>
+      `;
+    }
+
+    if (!appId) {
+      renderNotFound();
+    } else {
+      fetch(`apps.json?v=${Date.now()}`)
+        .then((response) => response.ok ? response.json() : Promise.reject(new Error("Could not load apps.json")))
+        .then((apps) => {
+          const app = apps.find((item) => item.id === appId);
+          app ? renderApp(app) : renderNotFound();
+        })
+        .catch(renderNotFound);
+    }
+  </script>
+</body>
+</html>

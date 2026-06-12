@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nosami Admin</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="admin-body">
+  <section class="login-screen" id="loginScreen">
+    <form class="login-card" id="loginForm">
+      <h1>Nosami Admin</h1>
+      <p>Enter the admin password to manage the app catalog.</p>
+      <div class="field">
+        <label for="adminPassword">Password</label>
+        <input id="adminPassword" type="password" autocomplete="current-password" required />
+      </div>
+      <p class="error-text" id="loginError" aria-live="polite"></p>
+      <button class="btn btn-primary" type="submit">Log in</button>
+    </form>
+  </section>
+
+  <main class="admin-shell hidden" id="adminShell">
+    <header class="admin-header">
+      <h1>Nosami Admin</h1>
+      <div class="button-row">
+        <a class="btn btn-outline" href="index.html" target="_blank" rel="noopener">View site &rarr;</a>
+        <button class="btn btn-outline" type="button" id="logoutBtn">Log out</button>
+      </div>
+    </header>
+
+    <div class="admin-layout">
+      <aside class="admin-panel admin-sidebar">
+        <button class="btn btn-primary" type="button" id="newAppBtn">+ New app</button>
+        <div class="admin-list" id="appList"></div>
+      </aside>
+
+      <section class="admin-panel">
+        <div class="form-head">
+          <div>
+            <p class="eyebrow">Catalog editor</p>
+            <h2 id="formTitle">New app</h2>
+          </div>
+        </div>
+
+        <form id="appForm" class="form-grid">
+          <div class="form-fields">
+            <div class="field">
+              <label for="appId">App ID (slug)</label>
+              <div class="input-with-button">
+                <input id="appId" name="id" type="text" required />
+                <button class="btn btn-outline" type="button" id="generateIdBtn">Auto-generate ID</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="name">App Name</label>
+              <input id="name" name="name" type="text" required />
+            </div>
+
+            <div class="field">
+              <label for="tagline">Tagline</label>
+              <input id="tagline" name="tagline" type="text" />
+            </div>
+
+            <div class="field">
+              <label for="description">Description</label>
+              <textarea id="description" name="description"></textarea>
+            </div>
+
+            <div class="field">
+              <label for="category">Category</label>
+              <select id="category" name="category">
+                <option>Business</option>
+                <option>Productivity</option>
+                <option>Utility</option>
+                <option>Lifestyle</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="icon">Icon Emoji</label>
+              <input id="icon" name="icon" type="text" maxlength="8" />
+            </div>
+
+            <div class="field">
+              <label for="iconUrl">Icon URL</label>
+              <input id="iconUrl" name="iconUrl" type="text" />
+            </div>
+
+            <div class="field">
+              <label for="package">Package name</label>
+              <input id="package" name="package" type="text" placeholder="com.nosamiapps.appname" />
+            </div>
+
+            <div class="field">
+              <label for="playUrl">Google Play URL</label>
+              <input id="playUrl" name="playUrl" type="url" required />
+            </div>
+
+            <fieldset class="radio-group">
+              <legend>Status</legend>
+              <div class="radio-options">
+                <label><input type="radio" name="status" value="live" checked /> Live</label>
+                <label><input type="radio" name="status" value="coming-soon" /> Coming Soon</label>
+              </div>
+            </fieldset>
+
+            <div class="field">
+              <label for="rating">Rating</label>
+              <input id="rating" name="rating" type="text" placeholder="4.5" />
+            </div>
+
+            <div class="field">
+              <label for="installs">Installs</label>
+              <input id="installs" name="installs" type="text" placeholder="500+" />
+            </div>
+
+            <div class="field">
+              <label for="screenshots">Screenshots</label>
+              <textarea id="screenshots" name="screenshots" placeholder="One URL per line"></textarea>
+            </div>
+
+            <div class="field">
+              <label for="features">Features</label>
+              <textarea id="features" name="features" placeholder="One feature per line"></textarea>
+            </div>
+
+            <div class="field">
+              <label for="privacyUrl">Privacy URL</label>
+              <input id="privacyUrl" name="privacyUrl" type="text" value="privacy.html" />
+            </div>
+
+            <p class="error-text" id="formError" aria-live="polite"></p>
+
+            <div class="button-row">
+              <button class="btn btn-primary" type="submit">Save app</button>
+              <button class="btn btn-danger hidden" type="button" id="deleteBtn">Delete app</button>
+            </div>
+          </div>
+
+          <aside class="preview-card">
+            <p class="eyebrow">Live preview</p>
+            <div class="app-card-top">
+              <div class="app-icon" id="previewIcon"><span></span></div>
+              <div>
+                <h3 id="previewName">New app</h3>
+                <p id="previewCategory">Business</p>
+              </div>
+            </div>
+            <p id="previewTagline">Short app tagline</p>
+            <span class="badge badge-live" id="previewStatus">Live</span>
+          </aside>
+        </form>
+
+        <section class="json-export hidden" id="jsonExport">
+          <p class="form-help">Copy this JSON &rarr; open apps.json in VS Code &rarr; replace content &rarr; save &rarr; git push.</p>
+          <div class="notice">Paste this into apps.json in your repo, then run: git add apps.json &amp;&amp; git commit -m 'update apps' &amp;&amp; git push</div>
+          <textarea id="jsonOutput" readonly></textarea>
+          <div class="button-row">
+            <button class="btn btn-primary" type="button" id="copyJsonBtn">Copy to clipboard</button>
+            <button class="btn btn-outline" type="button" id="downloadJsonBtn">Download apps.json</button>
+          </div>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const ADMIN_PASSWORD = "nosami2025";
+    const AUTH_KEY = "nosami-admin-auth";
+
+    const fallbackApps = [
+      {
+        id: "sample-cafe-pos",
+        name: "Sample Cafe POS",
+        tagline: "A simple offline-first point of sale for small cafes.",
+        description: "Sample Cafe POS helps small cafe owners manage orders, receipts, and daily sales from an Android phone. This placeholder app keeps the Nosami Apps showcase populated while the real app catalog is prepared.",
+        category: "Business",
+        icon: "\u2615",
+        iconUrl: "",
+        package: "com.nosamiapps.samplecafepos",
+        playUrl: "https://play.google.com/store/apps/details?id=com.nosamiapps.samplecafepos",
+        status: "live",
+        rating: "4.5",
+        installs: "500+",
+        screenshots: [],
+        features: [
+          "Create and manage cafe orders",
+          "Track daily sales and shifts",
+          "Works offline on Android devices"
+        ],
+        privacyUrl: "privacy.html",
+        addedDate: "2025-06-08"
+      }
+    ];
+
+    let apps = [];
+    let selectedId = null;
+
+    const loginScreen = document.getElementById("loginScreen");
+    const adminShell = document.getElementById("adminShell");
+    const loginForm = document.getElementById("loginForm");
+    const loginError = document.getElementById("loginError");
+    const appForm = document.getElementById("appForm");
+    const appList = document.getElementById("appList");
+    const formTitle = document.getElementById("formTitle");
+    const formError = document.getElementById("formError");
+    const deleteBtn = document.getElementById("deleteBtn");
+    const jsonExport = document.getElementById("jsonExport");
+    const jsonOutput = document.getElementById("jsonOutput");
+
+    const fields = {
+      id: document.getElementById("appId"),
+      name: document.getElementById("name"),
+      tagline: document.getElementById("tagline"),
+      description: document.getElementById("description"),
+      category: document.getElementById("category"),
+      icon: document.getElementById("icon"),
+      iconUrl: document.getElementById("iconUrl"),
+      package: document.getElementById("package"),
+      playUrl: document.getElementById("playUrl"),
+      rating: document.getElementById("rating"),
+      installs: document.getElementById("installs"),
+      screenshots: document.getElementById("screenshots"),
+      features: document.getElementById("features"),
+      privacyUrl: document.getElementById("privacyUrl")
+    };
+
+    function showAdmin() {
+      loginScreen.classList.add("hidden");
+      adminShell.classList.remove("hidden");
+      loadApps();
+    }
+
+    function slugify(value) {
+      return String(value || "")
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    function linesToArray(value) {
+      return String(value || "")
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter(Boolean);
+    }
+
+    function todayIso() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function loadApps() {
+      fetch(`apps.json?v=${Date.now()}`)
+        .then((response) => response.ok ? response.json() : Promise.reject(new Error("Could not load apps.json")))
+        .then((data) => {
+          apps = Array.isArray(data) ? data : [];
+          renderAppList();
+          clearForm();
+        })
+        .catch(() => {
+          apps = structuredClone(fallbackApps);
+          renderAppList();
+          clearForm();
+        });
+    }
+
+    function renderAppList() {
+      appList.innerHTML = "";
+      if (apps.length === 0) {
+        appList.innerHTML = `<p class="admin-muted">No apps yet.</p>`;
+        return;
+      }
+
+      apps.forEach((app) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `admin-list-item ${app.id === selectedId ? "active" : ""}`;
+        button.innerHTML = `
+          <span>
+            <strong>${escapeHtml(app.name)}</strong>
+            <small>${escapeHtml(app.id)}</small>
+          </span>
+          <span class="badge ${app.status === "live" ? "badge-live" : "badge-soon"}">${app.status === "live" ? "Live" : "Soon"}</span>
+        `;
+        button.addEventListener("click", () => loadIntoForm(app.id));
+        appList.appendChild(button);
+      });
+    }
+
+    function clearForm() {
+      selectedId = null;
+      formTitle.textContent = "New app";
+      deleteBtn.classList.add("hidden");
+      formError.textContent = "";
+      appForm.reset();
+      fields.category.value = "Business";
+      fields.privacyUrl.value = "privacy.html";
+      fields.icon.value = "\u2615";
+      appForm.elements.status.value = "live";
+      updatePreview();
+      renderAppList();
+    }
+
+    function loadIntoForm(id) {
+      const app = apps.find((item) => item.id === id);
+      if (!app) return;
+      selectedId = id;
+      formTitle.textContent = `Editing ${app.name}`;
+      deleteBtn.classList.remove("hidden");
+      formError.textContent = "";
+
+      fields.id.value = app.id || "";
+      fields.name.value = app.name || "";
+      fields.tagline.value = app.tagline || "";
+      fields.description.value = app.description || "";
+      fields.category.value = app.category || "Business";
+      fields.icon.value = app.icon || "";
+      fields.iconUrl.value = app.iconUrl || "";
+      fields.package.value = app.package || "";
+      fields.playUrl.value = app.playUrl || "";
+      appForm.elements.status.value = app.status || "live";
+      fields.rating.value = app.rating || "";
+      fields.installs.value = app.installs || "";
+      fields.screenshots.value = Array.isArray(app.screenshots) ? app.screenshots.join("\n") : "";
+      fields.features.value = Array.isArray(app.features) ? app.features.join("\n") : "";
+      fields.privacyUrl.value = app.privacyUrl || "privacy.html";
+
+      updatePreview();
+      renderAppList();
+    }
+
+    function appFromForm() {
+      const existing = apps.find((item) => item.id === selectedId);
+      return {
+        id: fields.id.value.trim(),
+        name: fields.name.value.trim(),
+        tagline: fields.tagline.value.trim(),
+        description: fields.description.value.trim(),
+        category: fields.category.value,
+        icon: fields.icon.value.trim(),
+        iconUrl: fields.iconUrl.value.trim(),
+        package: fields.package.value.trim(),
+        playUrl: fields.playUrl.value.trim(),
+        status: appForm.elements.status.value,
+        rating: fields.rating.value.trim(),
+        installs: fields.installs.value.trim(),
+        screenshots: linesToArray(fields.screenshots.value),
+        features: linesToArray(fields.features.value),
+        privacyUrl: fields.privacyUrl.value.trim() || "privacy.html",
+        addedDate: existing?.addedDate || todayIso()
+      };
+    }
+
+    function validateApp(app) {
+      if (!app.name) return "App Name is required.";
+      if (!app.id) return "App ID is required.";
+      if (!app.playUrl) return "Google Play URL is required.";
+      const duplicate = apps.find((item) => item.id === app.id && item.id !== selectedId);
+      if (duplicate) return "Another app already uses this App ID.";
+      return "";
+    }
+
+    function showJson() {
+      jsonOutput.value = JSON.stringify(apps, null, 2);
+      jsonExport.classList.remove("hidden");
+    }
+
+    function updatePreview() {
+      const name = fields.name.value.trim() || "New app";
+      const tagline = fields.tagline.value.trim() || "Short app tagline";
+      const category = fields.category.value || "Business";
+      const iconUrl = fields.iconUrl.value.trim();
+      const icon = fields.icon.value.trim();
+      const status = appForm.elements.status.value;
+
+      document.getElementById("previewName").textContent = name;
+      document.getElementById("previewTagline").textContent = tagline;
+      document.getElementById("previewCategory").textContent = category;
+      document.getElementById("previewStatus").textContent = status === "live" ? "Live" : "Coming soon";
+      document.getElementById("previewStatus").className = `badge ${status === "live" ? "badge-live" : "badge-soon"}`;
+      document.getElementById("previewIcon").innerHTML = iconUrl
+        ? `<img src="${escapeHtml(iconUrl)}" alt="" />`
+        : `<span>${escapeHtml(icon || "")}</span>`;
+    }
+
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (document.getElementById("adminPassword").value === ADMIN_PASSWORD) {
+        sessionStorage.setItem(AUTH_KEY, "true");
+        showAdmin();
+      } else {
+        loginError.textContent = "Incorrect password";
+      }
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      sessionStorage.removeItem(AUTH_KEY);
+      window.location.reload();
+    });
+
+    document.getElementById("newAppBtn").addEventListener("click", clearForm);
+
+    document.getElementById("generateIdBtn").addEventListener("click", () => {
+      fields.id.value = slugify(fields.name.value);
+    });
+
+    fields.name.addEventListener("input", () => {
+      if (!selectedId && !fields.id.value.trim()) fields.id.value = slugify(fields.name.value);
+      updatePreview();
+    });
+
+    Array.from(appForm.elements).forEach((element) => {
+      element.addEventListener("input", updatePreview);
+      element.addEventListener("change", updatePreview);
+    });
+
+    appForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const app = appFromForm();
+      const error = validateApp(app);
+      if (error) {
+        formError.textContent = error;
+        return;
+      }
+
+      const index = apps.findIndex((item) => item.id === selectedId);
+      if (index >= 0) {
+        apps[index] = app;
+      } else {
+        apps.push(app);
+      }
+      selectedId = app.id;
+      formError.textContent = "";
+      formTitle.textContent = `Editing ${app.name}`;
+      deleteBtn.classList.remove("hidden");
+      renderAppList();
+      showJson();
+    });
+
+    deleteBtn.addEventListener("click", () => {
+      if (!selectedId) return;
+      apps = apps.filter((app) => app.id !== selectedId);
+      clearForm();
+      showJson();
+    });
+
+    document.getElementById("copyJsonBtn").addEventListener("click", async () => {
+      await navigator.clipboard.writeText(jsonOutput.value);
+    });
+
+    document.getElementById("downloadJsonBtn").addEventListener("click", () => {
+      const blob = new Blob([jsonOutput.value], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "apps.json";
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+
+    if (sessionStorage.getItem(AUTH_KEY) === "true") {
+      showAdmin();
+    }
+  </script>
+</body>
+</html>

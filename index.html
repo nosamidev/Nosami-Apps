@@ -3,90 +3,131 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nosami Apps — Android Apps for Everyone</title>
-  <meta name="description" content="Nosami Apps builds practical Android applications. Browse our apps on Google Play." />
+  <title>Nosami Apps - Android apps made easier</title>
+  <meta name="description" content="Nosami Apps builds practical Android applications for everyday work and life." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-<nav>
-  <div class="nav-inner">
-    <a class="nav-logo" href="index.html">Nosami<span>.</span></a>
-    <div class="nav-links">
-      <a href="index.html" class="active">Apps</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="terms.html">Terms</a>
-    </div>
-  </div>
-</nav>
-
-<section class="hero">
-  <div class="hero-eyebrow">📱 Android Apps</div>
-  <h1>Apps built to<br /><em>make life easier</em></h1>
-  <p class="hero-sub">
-    Nosami Apps develops practical, well-crafted Android applications.
-    All apps are available on Google Play — free or affordable.
-  </p>
-</section>
-
-<section class="section">
-  <p class="section-label">Our Apps</p>
-  <h2 class="section-title">What we build</h2>
-
-  <div class="app-grid">
-
-    <!-- ── APP CARD 1 ── Copy this block to add a new app ── -->
-    <a class="app-card" href="apps/sample-app/index.html">
-      <div class="app-card-header">
-        <div class="app-icon">☕</div>
-        <div class="app-card-meta">
-          <div class="app-card-name">Café POS</div>
-          <div class="app-card-cat">Business · Point of Sale</div>
-        </div>
-      </div>
-      <p class="app-card-desc">
-        An offline-first point-of-sale system built for small cafés.
-        Manage orders, shifts, and print receipts — no internet required.
-      </p>
-      <div class="app-card-footer">
-        <span class="badge badge-green">● Live on Play</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <!-- ── PLACEHOLDER CARD — replace with your next app ── -->
-    <div class="app-card" style="opacity:0.45; pointer-events:none;">
-      <div class="app-card-header">
-        <div class="app-icon" style="font-size:22px; color:var(--subtle);">+</div>
-        <div class="app-card-meta">
-          <div class="app-card-name" style="color:var(--subtle);">Coming soon</div>
-          <div class="app-card-cat">New app in development</div>
-        </div>
-      </div>
-      <p class="app-card-desc">Another app is on the way. Stay tuned.</p>
-      <div class="app-card-footer">
-        <span class="badge badge-blue">In progress</span>
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a class="nav-logo" href="index.html">Nosami<span>.</span></a>
+      <div class="nav-links" aria-label="Primary navigation">
+        <a href="#apps" class="active">Apps</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
       </div>
     </div>
+  </nav>
 
-  </div>
-</section>
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Android app developer</p>
+        <h1>Useful Android apps that make everyday work <span>easier</span>.</h1>
+        <p class="hero-subtitle">Nosami Apps creates focused, practical tools for small businesses, productivity, and everyday utility.</p>
+      </div>
+    </section>
 
-<footer>
-  <div class="footer-inner">
-    <div>
-      <div class="footer-brand">Nosami<span>.</span></div>
-      <p class="footer-desc">Building practical Android apps.</p>
+    <section class="section" id="apps">
+      <div class="section-heading">
+        <p class="eyebrow">Apps</p>
+        <h2>Available on Google Play</h2>
+      </div>
+      <div class="app-grid" id="appGrid" aria-live="polite"></div>
+      <div class="empty-state hidden" id="emptyState">
+        <h3>No live apps yet</h3>
+        <p>Nosami Apps is preparing the first public release. Please check back soon.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <a class="footer-brand" href="index.html">Nosami<span>.</span></a>
+        <p>Building practical Android apps.</p>
+      </div>
+      <div class="footer-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+      </div>
     </div>
-    <div class="footer-links">
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Service</a>
-    </div>
-  </div>
-  <p class="footer-copy">© 2025 Nosami Apps. All rights reserved.</p>
-</footer>
+  </footer>
 
+  <script>
+    const appGrid = document.getElementById("appGrid");
+    const emptyState = document.getElementById("emptyState");
+
+    function appIcon(app) {
+      if (app.iconUrl) {
+        return `<img src="${escapeHtml(app.iconUrl)}" alt="" loading="lazy" />`;
+      }
+      return `<span>${escapeHtml(app.icon || "")}</span>`;
+    }
+
+    function screenshots(app) {
+      if (!Array.isArray(app.screenshots) || app.screenshots.length === 0) return "";
+      const images = app.screenshots.slice(0, 3).map((url) => (
+        `<img src="${escapeHtml(url)}" alt="${escapeHtml(app.name)} screenshot" loading="lazy" />`
+      )).join("");
+      return `<div class="screenshots-row">${images}</div>`;
+    }
+
+    function statusBadge(status) {
+      const label = status === "live" ? "Live" : "Coming soon";
+      const className = status === "live" ? "badge badge-live" : "badge badge-soon";
+      return `<span class="${className}">${label}</span>`;
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function renderApps(apps) {
+      const liveApps = apps.filter((app) => app.status === "live");
+      appGrid.innerHTML = "";
+      emptyState.classList.toggle("hidden", liveApps.length > 0);
+
+      liveApps.forEach((app) => {
+        const card = document.createElement("a");
+        card.className = "app-card";
+        card.href = `app.html?id=${encodeURIComponent(app.id)}`;
+        card.innerHTML = `
+          <div class="app-card-top">
+            <div class="app-icon">${appIcon(app)}</div>
+            <div>
+              <h3>${escapeHtml(app.name)}</h3>
+              <p>${escapeHtml(app.category)}</p>
+            </div>
+          </div>
+          <p class="app-tagline">${escapeHtml(app.tagline)}</p>
+          ${screenshots(app)}
+          <div class="app-card-foot">
+            ${statusBadge(app.status)}
+            ${app.rating ? `<span class="rating">${escapeHtml(app.rating)} rating</span>` : ""}
+          </div>
+        `;
+        appGrid.appendChild(card);
+      });
+    }
+
+    fetch(`apps.json?v=${Date.now()}`)
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error("Could not load apps.json")))
+      .then(renderApps)
+      .catch(() => {
+        appGrid.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        emptyState.querySelector("h3").textContent = "Unable to load apps";
+        emptyState.querySelector("p").textContent = "Please make sure apps.json is available in the site root.";
+      });
+  </script>
 </body>
 </html>
