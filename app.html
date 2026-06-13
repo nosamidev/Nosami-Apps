@@ -41,6 +41,10 @@
     const detailRoot = document.getElementById("detailRoot");
     const params = new URLSearchParams(window.location.search);
     const appId = params.get("id");
+    const navPrivacyLink = document.querySelector('.nav-links a[href="privacy.html"]');
+    const footerPrivacyLink = document.querySelector('.footer-links a[href="privacy.html"]');
+    const navTermsLink = document.querySelector('.nav-links a[href="terms.html"]');
+    const footerTermsLink = document.querySelector('.footer-links a[href="terms.html"]');
 
     function escapeHtml(value) {
       return String(value || "")
@@ -87,6 +91,12 @@
     }
 
     function renderApp(app) {
+      const privacyUrl = app.privacyUrl || "privacy.html";
+      const termsUrl = app.termsUrl || "terms.html";
+      if (navPrivacyLink) navPrivacyLink.href = privacyUrl;
+      if (footerPrivacyLink) footerPrivacyLink.href = privacyUrl;
+      if (navTermsLink) navTermsLink.href = termsUrl;
+      if (footerTermsLink) footerTermsLink.href = termsUrl;
       document.title = `${app.name} - Nosami Apps`;
       detailRoot.innerHTML = `
         <section class="detail-panel">
@@ -102,7 +112,8 @@
               </div>
               <div class="app-actions">
                 <a class="btn btn-primary" href="${escapeHtml(app.playUrl)}" target="_blank" rel="noopener">Get on Google Play</a>
-                <a class="btn btn-outline" href="${escapeHtml(app.privacyUrl || "privacy.html")}">Privacy Policy</a>
+                <a class="btn btn-outline" href="${escapeHtml(privacyUrl)}">Privacy Policy</a>
+                <a class="btn btn-outline" href="${escapeHtml(termsUrl)}">Terms of Service</a>
               </div>
             </div>
           </div>
