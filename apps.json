@@ -1,47 +1,16 @@
 [
   {
     "id": "draw-together",
-    "name": "Draw Together: Drawing Game for Two",
-    "tagline": "A real-time drawing game for two people. Create a private room, invite a friend, and draw together on the same canvas.",
-    "description": "Draw Together: Drawing Game for Two lets two players join a private room and draw on the same canvas in real time. It is designed for simple shared drawing sessions with room-based multiplayer.",
-    "category": "Game",
-    "icon": "DT",
-    "iconUrl": "",
-    "package": "com.nosamidev.drawtogether",
-    "playUrl": "https://play.google.com/store/apps/details?id=com.nosamidev.drawtogether",
-    "status": "live",
-    "rating": "",
-    "installs": "",
+    "name": "Draw Together",
+    "shortDesc": "Real-time shared drawing for two people.",
+    "fullDesc": "Draw Together is a real-time shared canvas app for two-person rooms. Create a private room, share the code, and draw together on the same canvas in real time.",
+    "icon": "assets/draw-together/icon.png",
     "screenshots": [],
-    "features": [
-      "Create a private room and invite one other player",
-      "Draw together on the same shared canvas in real time",
-      "Use nicknames and room presence to coordinate the session"
-    ],
+    "playStoreUrl": "https://play.google.com/store/apps/details?id=com.nosamidev.drawtogether",
     "privacyUrl": "draw-together-privacy.html",
     "termsUrl": "draw-together-terms.html",
-    "addedDate": "2026-06-13"
-  },
-  {
-    "id": "sample-cafe-pos",
-    "name": "Sample Cafe POS",
-    "tagline": "A simple offline-first point of sale for small cafes.",
-    "description": "Sample Cafe POS helps small cafe owners manage orders, receipts, and daily sales from an Android phone. This placeholder app keeps the Nosami Apps showcase populated while the real app catalog is prepared.",
-    "category": "Business",
-    "icon": "\u2615",
-    "iconUrl": "",
-    "package": "com.nosamiapps.samplecafepos",
-    "playUrl": "https://play.google.com/store/apps/details?id=com.nosamiapps.samplecafepos",
     "status": "live",
-    "rating": "4.5",
-    "installs": "500+",
-    "screenshots": [],
-    "features": [
-      "Create and manage cafe orders",
-      "Track daily sales and shifts",
-      "Works offline on Android devices"
-    ],
-    "privacyUrl": "privacy.html",
-    "addedDate": "2025-06-08"
+    "category": "Games",
+    "publishedDate": "2026-06-01"
   }
 ]

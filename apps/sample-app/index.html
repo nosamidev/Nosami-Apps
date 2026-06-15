@@ -1,108 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- ✏️ UPDATE: App name and description -->
-  <title>Café POS — Nosami Apps</title>
-  <meta name="description" content="Offline-first point-of-sale app for small cafés. Manage orders, shifts, and print receipts." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" />
-  <link rel="stylesheet" href="../../style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sample App · Nosami Apps</title>
+  <meta name="description" content="Sample app page template for Nosami Apps.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📱</text></svg>">
+  <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
-
-<nav>
-  <div class="nav-inner">
-    <a class="nav-logo" href="../../index.html">Nosami<span>.</span></a>
-    <div class="nav-links">
-      <a href="../../index.html">Apps</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="../../terms.html">Terms</a>
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a class="nav-logo" href="../../index.html">Nosami<span>.</span></a>
+      <div class="nav-links" aria-label="Primary navigation">
+        <a href="../../index.html">&larr; All apps</a>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<!-- ── APP HERO ── -->
-<div class="app-detail-hero">
-  <!-- ✏️ UPDATE: emoji or replace with <img> for real icon -->
-  <div class="app-detail-icon">☕</div>
-  <div class="app-detail-info">
-    <!-- ✏️ UPDATE: App name, tagline, Play Store URL -->
-    <h1>Café POS</h1>
-    <p class="tagline">Offline point-of-sale for small cafés</p>
-    <div class="app-detail-actions">
-      <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME" target="_blank" rel="noopener">
-        ↗ Get it on Google Play
-      </a>
-      <a class="btn btn-outline" href="privacy.html">Privacy Policy</a>
+  <main class="legal-body">
+    <h1>Sample App</h1>
+    <p class="legal-meta">Template page for future app-specific content.</p>
+    <p>
+      This sample page is not linked from the public site. Use the root `app.html` dynamic detail page for app listings,
+      and use app-specific legal pages for privacy and terms.
+    </p>
+    <p>
+      When a new app is ready, add it through the private admin panel, copy the generated JSON into `apps.json`, and
+      create matching legal pages from `LEGAL_TEMPLATE.md`.
+    </p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="footer-brand" href="../../index.html">Nosami<span>.</span></a>
     </div>
-  </div>
-</div>
-
-<!-- ── SCREENSHOTS ── -->
-<!-- ✏️ REPLACE placeholders with real <img src="screenshots/1.png" alt="..."> -->
-<div class="screenshots">
-  <div class="screenshot-placeholder">Screenshot 1</div>
-  <div class="screenshot-placeholder">Screenshot 2</div>
-  <div class="screenshot-placeholder">Screenshot 3</div>
-  <div class="screenshot-placeholder">Screenshot 4</div>
-</div>
-
-<!-- ── APP BODY ── -->
-<div class="app-body">
-
-  <h2>About this app</h2>
-  <!-- ✏️ UPDATE: Full app description -->
-  <p>
-    Café POS is a lightweight, offline-first point-of-sale application built for small cafés
-    and food businesses. Designed to work without an internet connection, it keeps your
-    service running even when connectivity is unavailable.
-  </p>
-  <p>
-    Built for Android and optimized for dedicated POS terminals, Café POS handles your
-    full order flow — from taking orders to printing thermal receipts.
-  </p>
-
-  <h2>Features</h2>
-  <!-- ✏️ UPDATE: Feature list -->
-  <ul class="feature-list">
-    <li>Full offline operation — no internet required</li>
-    <li>Product grid with categories (Breakfast, Drinks, Popular, Extras)</li>
-    <li>Shift management with clock-in / clock-out per server</li>
-    <li>Thermal receipt printing via USB (ESC/POS)</li>
-    <li>Order history and ticket management</li>
-    <li>Admin panel for menu and settings</li>
-  </ul>
-
-  <h2>Compatibility</h2>
-  <p>
-    Requires Android 5.1 (API level 22) or higher. Optimized for dedicated Android POS
-    terminals. Works on standard Android phones and tablets.
-  </p>
-
-  <h2>Privacy</h2>
-  <p>
-    This app operates fully offline. No personal data is transmitted to external servers.
-    All data (orders, products, shifts) is stored locally on your device.
-    <a href="privacy.html">Read the full Privacy Policy →</a>
-  </p>
-
-</div>
-
-<footer>
-  <div class="footer-inner">
-    <div>
-      <div class="footer-brand">Nosami<span>.</span></div>
-      <p class="footer-desc">Building practical Android apps.</p>
-    </div>
-    <div class="footer-links">
-      <a href="../../privacy.html">Privacy</a>
-      <a href="../../terms.html">Terms</a>
-    </div>
-  </div>
-  <p class="footer-copy">© 2025 Nosami Apps. All rights reserved.</p>
-</footer>
-
+  </footer>
 </body>
 </html>

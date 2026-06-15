@@ -1,148 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>App - Nosami Apps</title>
-  <meta name="description" content="Nosami Apps Android app details." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nosami App Detail</title>
+  <meta name="description" content="App details for NosamiDev Android apps.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📱</text></svg>">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <nav class="site-nav">
     <div class="nav-inner">
       <a class="nav-logo" href="index.html">Nosami<span>.</span></a>
-      <div class="nav-links" aria-label="Primary navigation">
-        <a href="index.html">Back to all apps</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-      </div>
     </div>
   </nav>
 
-  <main class="detail-wrap" id="detailRoot" aria-live="polite"></main>
+  <main class="detail-page">
+    <div class="container">
+      <a class="back-link" href="index.html" aria-label="Back to all apps">&larr; All apps</a>
+
+      <div id="app-detail" aria-live="polite">
+        <p class="loading-state">Loading...</p>
+      </div>
+    </div>
+  </main>
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <div>
-        <a class="footer-brand" href="index.html">Nosami<span>.</span></a>
-        <p>Building practical Android apps.</p>
-      </div>
-      <div class="footer-links">
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="terms.html">Terms</a>
-      </div>
+      <a class="footer-brand" href="index.html">Nosami<span>.</span></a>
     </div>
   </footer>
 
   <script>
-    const detailRoot = document.getElementById("detailRoot");
-    const params = new URLSearchParams(window.location.search);
-    const appId = params.get("id");
-    const navPrivacyLink = document.querySelector('.nav-links a[href="privacy.html"]');
-    const footerPrivacyLink = document.querySelector('.footer-links a[href="privacy.html"]');
-    const navTermsLink = document.querySelector('.nav-links a[href="terms.html"]');
-    const footerTermsLink = document.querySelector('.footer-links a[href="terms.html"]');
+    document.addEventListener("DOMContentLoaded", () => {
+      const detailRoot = document.querySelector("#app-detail");
+      const params = new URLSearchParams(window.location.search);
+      const appId = params.get("id");
 
-    function escapeHtml(value) {
-      return String(value || "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
+      const formatStatus = (status) => {
+        if (status === "live") {
+          return "Live";
+        }
 
-    function appIcon(app) {
-      if (app.iconUrl) {
-        return `<img src="${escapeHtml(app.iconUrl)}" alt="" loading="lazy" />`;
+        return "Coming Soon";
+      };
+
+      const getInitials = (name) => name
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((word) => word[0])
+        .join("")
+        .toUpperCase();
+
+      const createIcon = (app) => {
+        const icon = document.createElement("div");
+        icon.className = "detail-icon app-icon-fallback";
+        icon.textContent = getInitials(app.name);
+        icon.setAttribute("aria-hidden", "true");
+
+        if (app.icon) {
+          const image = document.createElement("img");
+          image.alt = "";
+          image.loading = "lazy";
+          image.addEventListener("load", () => {
+            icon.textContent = "";
+            icon.classList.remove("app-icon-fallback");
+            icon.append(image);
+          }, { once: true });
+          image.src = app.icon;
+        }
+
+        return icon;
+      };
+
+      const createParagraphs = (text) => {
+        const fragment = document.createDocumentFragment();
+        String(text || "")
+          .split(/\n{2,}/)
+          .map((paragraph) => paragraph.trim())
+          .filter(Boolean)
+          .forEach((paragraph) => {
+            const p = document.createElement("p");
+            p.textContent = paragraph;
+            fragment.append(p);
+          });
+
+        return fragment;
+      };
+
+      const renderNotFound = () => {
+        detailRoot.replaceChildren();
+
+        const message = document.createElement("section");
+        message.className = "not-found-state";
+
+        const heading = document.createElement("h1");
+        heading.textContent = "App not found.";
+
+        const link = document.createElement("a");
+        link.href = "index.html";
+        link.textContent = "Go back to all apps.";
+
+        message.append(heading, link);
+        detailRoot.append(message);
+      };
+
+      const renderApp = (app) => {
+        detailRoot.replaceChildren();
+        document.title = `${app.name} - Nosami Apps`;
+
+        const article = document.createElement("article");
+        article.className = "detail-panel";
+
+        const header = document.createElement("header");
+        header.className = "detail-header";
+        header.append(createIcon(app));
+
+        const headingWrap = document.createElement("div");
+        headingWrap.className = "detail-heading";
+
+        const title = document.createElement("h1");
+        title.textContent = app.name;
+
+        const meta = document.createElement("div");
+        meta.className = "detail-meta";
+
+        if (app.category) {
+          const category = document.createElement("span");
+          category.className = "badge badge-accent";
+          category.textContent = app.category;
+          meta.append(category);
+        }
+
+        const status = document.createElement("span");
+        status.className = `badge ${app.status === "live" ? "badge-live" : "badge-coming-soon"}`;
+        status.textContent = formatStatus(app.status);
+        meta.append(status);
+
+        const shortDesc = document.createElement("p");
+        shortDesc.className = "detail-short-desc";
+        shortDesc.textContent = app.shortDesc;
+
+        headingWrap.append(title, meta, shortDesc);
+
+        if (app.status === "live" && app.playStoreUrl) {
+          const playStore = document.createElement("a");
+          playStore.className = "btn btn-primary";
+          playStore.href = app.playStoreUrl;
+          playStore.target = "_blank";
+          playStore.rel = "noopener noreferrer";
+          playStore.textContent = "View on Play Store";
+          headingWrap.append(playStore);
+        }
+
+        header.append(headingWrap);
+        article.append(header);
+
+        const description = document.createElement("section");
+        description.className = "detail-section";
+
+        const descriptionHeading = document.createElement("h2");
+        descriptionHeading.textContent = "Overview";
+
+        const descriptionBody = document.createElement("div");
+        descriptionBody.className = "detail-description";
+        descriptionBody.append(createParagraphs(app.fullDesc));
+
+        description.append(descriptionHeading, descriptionBody);
+        article.append(description);
+
+        if (Array.isArray(app.screenshots) && app.screenshots.length > 0) {
+          const screenshots = document.createElement("section");
+          screenshots.className = "detail-section screenshots-section";
+
+          const screenshotsHeading = document.createElement("h2");
+          screenshotsHeading.textContent = "Screenshots";
+
+          const row = document.createElement("div");
+          row.className = "screenshots-row";
+
+          app.screenshots.forEach((src, index) => {
+            const image = document.createElement("img");
+            image.src = src;
+            image.alt = `${app.name} screenshot ${index + 1}`;
+            image.loading = "lazy";
+            row.append(image);
+          });
+
+          screenshots.append(screenshotsHeading, row);
+          article.append(screenshots);
+        }
+
+        const legal = document.createElement("nav");
+        legal.className = "legal-links";
+        legal.setAttribute("aria-label", "Legal links");
+
+        if (app.privacyUrl) {
+          const privacy = document.createElement("a");
+          privacy.href = app.privacyUrl;
+          privacy.textContent = "Privacy Policy";
+          legal.append(privacy);
+        }
+
+        if (app.termsUrl) {
+          const terms = document.createElement("a");
+          terms.href = app.termsUrl;
+          terms.textContent = "Terms of Service";
+          legal.append(terms);
+        }
+
+        article.append(legal);
+        detailRoot.append(article);
+      };
+
+      if (!appId) {
+        renderNotFound();
+        return;
       }
-      return `<span>${escapeHtml(app.icon || "")}</span>`;
-    }
 
-    function renderScreenshots(app) {
-      if (!Array.isArray(app.screenshots) || app.screenshots.length === 0) {
-        return `<div class="detail-screenshots"><div class="screenshot-empty">No screenshots yet</div></div>`;
-      }
-      const images = app.screenshots.map((url) => (
-        `<img src="${escapeHtml(url)}" alt="${escapeHtml(app.name)} screenshot" loading="lazy" />`
-      )).join("");
-      return `<div class="detail-screenshots">${images}</div>`;
-    }
+      fetch("apps.json")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Unable to load apps.");
+          }
 
-    function renderFeatures(app) {
-      if (!Array.isArray(app.features) || app.features.length === 0) {
-        return "<p>No feature list has been added yet.</p>";
-      }
-      return `<ul class="feature-list">${app.features.map((feature) => `<li>${escapeHtml(feature)}</li>`).join("")}</ul>`;
-    }
-
-    function renderNotFound() {
-      document.title = "App not found - Nosami Apps";
-      detailRoot.innerHTML = `
-        <section class="empty-state">
-          <h1>App not found</h1>
-          <p>That app could not be found in the Nosami Apps catalog.</p>
-          <a class="btn btn-primary" href="index.html">Back to all apps</a>
-        </section>
-      `;
-    }
-
-    function renderApp(app) {
-      const privacyUrl = app.privacyUrl || "privacy.html";
-      const termsUrl = app.termsUrl || "terms.html";
-      if (navPrivacyLink) navPrivacyLink.href = privacyUrl;
-      if (footerPrivacyLink) footerPrivacyLink.href = privacyUrl;
-      if (navTermsLink) navTermsLink.href = termsUrl;
-      if (footerTermsLink) footerTermsLink.href = termsUrl;
-      document.title = `${app.name} - Nosami Apps`;
-      detailRoot.innerHTML = `
-        <section class="detail-panel">
-          <div class="detail-title">
-            <div class="app-icon">${appIcon(app)}</div>
-            <div>
-              <h1>${escapeHtml(app.name)}</h1>
-              <p class="detail-tagline">${escapeHtml(app.tagline)}</p>
-              <div class="meta-row">
-                <span class="badge ${app.status === "live" ? "badge-live" : "badge-soon"}">${app.status === "live" ? "Live" : "Coming soon"}</span>
-                ${app.rating ? `<span class="meta-pill">${escapeHtml(app.rating)} rating</span>` : ""}
-                ${app.installs ? `<span class="meta-pill">${escapeHtml(app.installs)} installs</span>` : ""}
-              </div>
-              <div class="app-actions">
-                <a class="btn btn-primary" href="${escapeHtml(app.playUrl)}" target="_blank" rel="noopener">Get on Google Play</a>
-                <a class="btn btn-outline" href="${escapeHtml(privacyUrl)}">Privacy Policy</a>
-                <a class="btn btn-outline" href="${escapeHtml(termsUrl)}">Terms of Service</a>
-              </div>
-            </div>
-          </div>
-          ${renderScreenshots(app)}
-        </section>
-
-        <section class="content-section">
-          <h2>About</h2>
-          <p>${escapeHtml(app.description)}</p>
-        </section>
-
-        <section class="content-section">
-          <h2>Features</h2>
-          ${renderFeatures(app)}
-        </section>
-      `;
-    }
-
-    if (!appId) {
-      renderNotFound();
-    } else {
-      fetch(`apps.json?v=${Date.now()}`)
-        .then((response) => response.ok ? response.json() : Promise.reject(new Error("Could not load apps.json")))
-        .then((apps) => {
-          const app = apps.find((item) => item.id === appId);
-          app ? renderApp(app) : renderNotFound();
+          return response.json();
         })
-        .catch(renderNotFound);
-    }
+        .then((apps) => {
+          const app = Array.isArray(apps)
+            ? apps.find((entry) => entry.id === appId)
+            : null;
+
+          if (!app) {
+            renderNotFound();
+            return;
+          }
+
+          renderApp(app);
+        })
+        .catch(() => {
+          renderNotFound();
+        });
+    });
   </script>
 </body>
 </html>

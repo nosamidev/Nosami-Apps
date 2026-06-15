@@ -1,146 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nosami Apps - Android apps made easier</title>
-  <meta name="description" content="Nosami Apps builds practical Android applications for everyday work and life." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nosami Apps</title>
+  <meta name="description" content="Independent Android apps by NosamiDev.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📱</text></svg>">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <nav class="site-nav">
     <div class="nav-inner">
       <a class="nav-logo" href="index.html">Nosami<span>.</span></a>
-      <div class="nav-links" aria-label="Primary navigation">
-        <a href="#apps" class="active">Apps</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-      </div>
     </div>
   </nav>
 
   <main>
     <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">Android app developer</p>
-        <h1>Useful Android apps that make everyday work <span>easier</span>.</h1>
-        <p class="hero-subtitle">Nosami Apps creates focused, practical tools for small businesses, productivity, and everyday utility.</p>
+      <div class="container hero-inner">
+        <h1>Apps built for everyday use.</h1>
+        <p class="hero-subline">Independent Android apps by NosamiDev - practical, offline-first, no fluff.</p>
       </div>
     </section>
 
-    <section class="section" id="apps">
-      <div class="section-heading">
-        <p class="eyebrow">Apps</p>
-        <h2>Available on Google Play</h2>
-      </div>
-      <div class="detail-panel">
-        <div class="detail-title">
-          <div class="app-icon"><span>DT</span></div>
-          <div>
-            <h3>Draw Together: Drawing Game for Two</h3>
-            <p class="detail-tagline">A real-time drawing game for two people. Create a private room, invite a friend, and draw together on the same canvas.</p>
-            <div class="app-actions">
-              <a class="btn btn-outline" href="draw-together-privacy.html">Privacy Policy</a>
-              <a class="btn btn-outline" href="draw-together-terms.html">Terms of Service</a>
-            </div>
-          </div>
+    <section class="section" aria-labelledby="apps-heading">
+      <div class="container">
+        <div class="section-heading">
+          <h2 id="apps-heading">Apps</h2>
+        </div>
+        <div id="app-grid" class="app-grid" aria-live="polite">
+          <p class="loading-state">Loading...</p>
         </div>
       </div>
-      <div class="app-grid" id="appGrid" aria-live="polite"></div>
-      <div class="empty-state hidden" id="emptyState">
-        <h3>No live apps yet</h3>
-        <p>Nosami Apps is preparing the first public release. Please check back soon.</p>
+    </section>
+
+    <section class="about-section" aria-labelledby="about-heading">
+      <div class="container about-grid">
+        <div class="about-copy">
+          <h2 id="about-heading">About</h2>
+          <p>NosamiDev is an independent Android developer building practical apps for everyday moments.</p>
+          <p>The focus is simple software that feels useful quickly, works cleanly, and avoids unnecessary noise.</p>
+          <p>Projects are shaped around small, durable ideas: clear tools, lightweight experiences, and apps that respect the person using them.</p>
+        </div>
+        <aside class="contact-panel" aria-label="Contact links">
+          <h3>Contact</h3>
+          <a href="mailto:nosami.dev.21@gmail.com">nosami.dev.21@gmail.com</a>
+          <a href="https://github.com/nosamidev" target="_blank" rel="noopener noreferrer">github.com/nosamidev</a>
+        </aside>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <div>
-        <a class="footer-brand" href="index.html">Nosami<span>.</span></a>
-        <p>Building practical Android apps.</p>
-      </div>
-      <div class="footer-links">
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="terms.html">Terms</a>
-      </div>
+      <a class="footer-brand" href="index.html">Nosami<span>.</span></a>
     </div>
   </footer>
 
   <script>
-    const appGrid = document.getElementById("appGrid");
-    const emptyState = document.getElementById("emptyState");
+    document.addEventListener("DOMContentLoaded", () => {
+      const appGrid = document.querySelector("#app-grid");
 
-    function appIcon(app) {
-      if (app.iconUrl) {
-        return `<img src="${escapeHtml(app.iconUrl)}" alt="" loading="lazy" />`;
-      }
-      return `<span>${escapeHtml(app.icon || "")}</span>`;
-    }
+      const formatStatus = (status) => {
+        if (status === "live") {
+          return "Live";
+        }
 
-    function screenshots(app) {
-      if (!Array.isArray(app.screenshots) || app.screenshots.length === 0) return "";
-      const images = app.screenshots.slice(0, 3).map((url) => (
-        `<img src="${escapeHtml(url)}" alt="${escapeHtml(app.name)} screenshot" loading="lazy" />`
-      )).join("");
-      return `<div class="screenshots-row">${images}</div>`;
-    }
+        return "Coming Soon";
+      };
 
-    function statusBadge(status) {
-      const label = status === "live" ? "Live" : "Coming soon";
-      const className = status === "live" ? "badge badge-live" : "badge badge-soon";
-      return `<span class="${className}">${label}</span>`;
-    }
+      const getInitials = (name) => name
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((word) => word[0])
+        .join("")
+        .toUpperCase();
 
-    function escapeHtml(value) {
-      return String(value || "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
+      const createIcon = (app) => {
+        const icon = document.createElement("div");
+        icon.className = "app-icon app-icon-fallback";
+        icon.textContent = getInitials(app.name);
+        icon.setAttribute("aria-hidden", "true");
 
-    function renderApps(apps) {
-      const liveApps = apps.filter((app) => app.status === "live");
-      appGrid.innerHTML = "";
-      emptyState.classList.toggle("hidden", liveApps.length > 0);
+        if (app.icon) {
+          const image = document.createElement("img");
+          image.alt = "";
+          image.loading = "lazy";
+          image.addEventListener("load", () => {
+            icon.textContent = "";
+            icon.classList.remove("app-icon-fallback");
+            icon.append(image);
+          }, { once: true });
+          image.src = app.icon;
+        }
 
-      liveApps.forEach((app) => {
-        const card = document.createElement("a");
-        card.className = "app-card";
-        card.href = `app.html?id=${encodeURIComponent(app.id)}`;
-        card.innerHTML = `
-          <div class="app-card-top">
-            <div class="app-icon">${appIcon(app)}</div>
-            <div>
-              <h3>${escapeHtml(app.name)}</h3>
-              <p>${escapeHtml(app.category)}</p>
-            </div>
-          </div>
-          <p class="app-tagline">${escapeHtml(app.tagline)}</p>
-          ${screenshots(app)}
-          <div class="app-card-foot">
-            ${statusBadge(app.status)}
-            ${app.rating ? `<span class="rating">${escapeHtml(app.rating)} rating</span>` : ""}
-          </div>
-        `;
-        appGrid.appendChild(card);
+        return icon;
+      };
+
+      const createAppCard = (app) => {
+        const isLive = app.status === "live";
+        const card = document.createElement("article");
+        card.className = `app-card${isLive ? " is-clickable" : ""}`;
+
+        if (isLive) {
+          card.tabIndex = 0;
+          card.setAttribute("role", "link");
+          card.setAttribute("aria-label", `View details for ${app.name}`);
+          card.dataset.href = `app.html?id=${encodeURIComponent(app.id)}`;
+        }
+
+        const header = document.createElement("div");
+        header.className = "app-card-header";
+        header.append(createIcon(app));
+
+        const titleWrap = document.createElement("div");
+        titleWrap.className = "app-card-title";
+
+        const title = document.createElement("h3");
+        title.textContent = app.name;
+
+        const status = document.createElement("span");
+        status.className = `badge ${isLive ? "badge-live" : "badge-coming-soon"}`;
+        status.textContent = formatStatus(app.status);
+
+        titleWrap.append(title, status);
+        header.append(titleWrap);
+
+        const description = document.createElement("p");
+        description.textContent = app.shortDesc;
+
+        const footer = document.createElement("div");
+        footer.className = "app-card-footer";
+
+        if (isLive && app.playStoreUrl) {
+          const link = document.createElement("a");
+          link.className = "app-card-link";
+          link.href = app.playStoreUrl;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = "View on Play Store";
+          footer.append(link);
+        } else if (!isLive && app.privacyUrl) {
+          const link = document.createElement("a");
+          link.className = "app-card-link";
+          link.href = app.privacyUrl;
+          link.textContent = "Privacy Policy";
+          footer.append(link);
+        }
+
+        card.append(header, description, footer);
+
+        return card;
+      };
+
+      const renderApps = (apps) => {
+        appGrid.replaceChildren();
+
+        if (!apps.length) {
+          const empty = document.createElement("p");
+          empty.className = "empty-state";
+          empty.textContent = "No apps to show yet.";
+          appGrid.append(empty);
+          return;
+        }
+
+        apps
+          .sort((a, b) => new Date(b.publishedDate) - new Date(a.publishedDate))
+          .forEach((app) => {
+            appGrid.append(createAppCard(app));
+          });
+      };
+
+      appGrid.addEventListener("click", (event) => {
+        const card = event.target.closest(".app-card.is-clickable");
+
+        if (!card || event.target.closest("a")) {
+          return;
+        }
+
+        window.location.href = card.dataset.href;
       });
-    }
 
-    fetch(`apps.json?v=${Date.now()}`)
-      .then((response) => response.ok ? response.json() : Promise.reject(new Error("Could not load apps.json")))
-      .then(renderApps)
-      .catch(() => {
-        appGrid.innerHTML = "";
-        emptyState.classList.remove("hidden");
-        emptyState.querySelector("h3").textContent = "Unable to load apps";
-        emptyState.querySelector("p").textContent = "Please make sure apps.json is available in the site root.";
+      appGrid.addEventListener("keydown", (event) => {
+        const card = event.target.closest(".app-card.is-clickable");
+
+        if (!card || (event.key !== "Enter" && event.key !== " ")) {
+          return;
+        }
+
+        event.preventDefault();
+        window.location.href = card.dataset.href;
       });
+
+      fetch("apps.json")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Unable to load apps.");
+          }
+
+          return response.json();
+        })
+        .then((apps) => {
+          renderApps(Array.isArray(apps) ? apps : []);
+        })
+        .catch(() => {
+          appGrid.replaceChildren();
+          const error = document.createElement("p");
+          error.className = "empty-state";
+          error.textContent = "Apps could not be loaded right now.";
+          appGrid.append(error);
+        });
+    });
   </script>
 </body>
 </html>
