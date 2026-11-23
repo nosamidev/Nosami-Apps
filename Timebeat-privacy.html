@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BeatDown Privacy Policy</title>
+  <meta name="description" content="Privacy Policy for BeatDown, the countdown timer with a background beat. BeatDown collects no personal data.">
+  <style>
+    :root {
+      --bg: #1a1838;
+      --surface: #23215e;
+      --border: #3d3b8a;
+      --text: #eef0f6;
+      --sub: #c9cbe6;
+      --label: #b4b7da;
+      --accent: #34d3b4;
+      --primary: #d6304f;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f6f7fb;
+        --surface: #eceef7;
+        --border: #c7cae0;
+        --text: #16152e;
+        --sub: #45485f;
+        --label: #5b5e7a;
+        --accent: #0b7d67;
+        --primary: #c42a47;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--sub);
+      font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    main { max-width: 760px; margin: 0 auto; padding: 48px 16px 64px; }
+    header { margin-bottom: 32px; }
+    .brand {
+      display: inline-block;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .brand span { color: var(--primary); }
+    h1 { color: var(--text); font-size: clamp(30px, 6vw, 42px); line-height: 1.15; margin: 12px 0 8px; }
+    h2 { color: var(--text); font-size: 21px; margin: 40px 0 8px; }
+    h3 { color: var(--text); font-size: 17px; margin: 24px 0 4px; }
+    .meta { color: var(--label); font-size: 14px; margin: 0; }
+    a { color: var(--accent); }
+    strong { color: var(--text); }
+    .summary {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 22px;
+      margin: 24px 0 8px;
+    }
+    .summary h2 { margin-top: 0; }
+    .summary ul { margin: 0; padding-left: 20px; }
+    ul { padding-left: 22px; }
+    li { margin: 4px 0; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 15px; }
+    th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    th { color: var(--text); font-weight: 600; }
+    td code, p code, li code { font-size: 13px; overflow-wrap: anywhere; }
+    footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--label); font-size: 14px; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="brand">Beat<span>Down</span></div>
+    <h1>Privacy Policy</h1>
+    <p class="meta">Effective date: 23 November 2026</p>
+  </header>
+
+  <p>
+    This Privacy Policy explains how the BeatDown app for Android ("BeatDown", "the app") handles
+    information. BeatDown is published by <strong>nosamidev</strong> ("we", "us"). If you have any
+    question, write to <a href="mailto:kaylorgem@gmail.com">kaylorgem@gmail.com</a>.
+  </p>
+
+  <section class="summary" aria-labelledby="summary">
+    <h2 id="summary">In short</h2>
+    <ul>
+      <li><strong>We collect no personal data.</strong> There is no account, no sign-in and no profile.</li>
+      <li><strong>BeatDown has no internet access.</strong> The app does not request Android's internet permission, so it cannot send anything to us or to anyone else.</li>
+      <li><strong>No ads, no analytics, no tracking.</strong> The app contains no advertising or analytics code.</li>
+      <li>Your settings stay <strong>on your device</strong>. Uninstalling the app deletes them.</li>
+    </ul>
+  </section>
+
+  <h2>1. Information we collect</h2>
+  <p>
+    None. We do not collect, receive, store, sell or share any personal information. We cannot see
+    how you use the app, which durations you set or which music you play.
+  </p>
+
+  <h2>2. Information stored only on your device</h2>
+  <p>To work, BeatDown saves a few things in its private storage on your phone. This data never leaves your device through the app:</p>
+  <ul>
+    <li><strong>Your preferences:</strong> theme, the last duration you set, the beat you chose, and the beat volume.</li>
+    <li><strong>The countdown in progress:</strong> whether a timer is running or paused, and when it ends. This lets the countdown continue if Android closes the app or the phone restarts. It is deleted when the countdown ends.</li>
+    <li><strong>Your own music track, if you choose one:</strong> a reference to the audio file and its file name (see section 3).</li>
+    <li><strong>Review prompt counters:</strong> how many countdowns have finished and when the Google Play rating dialog was last shown, so it is not shown too often.</li>
+  </ul>
+  <p>
+    You can delete all of this at any time by uninstalling the app, or in Android
+    <strong>Settings → Apps → BeatDown → Storage → Clear storage</strong>.
+  </p>
+
+  <h2>3. Music you choose</h2>
+  <p>
+    If you use "Choose from my music", Android's own file picker opens and you pick one audio file.
+    BeatDown receives read-only access to that single file and plays it on your device. The file is
+    not copied, modified or uploaded anywhere. BeatDown cannot see your other files. If you pick a
+    different track, the app gives up access to the previous one. You can also revoke access by
+    clearing the app's storage.
+  </p>
+
+  <h2>4. Device backups</h2>
+  <p>
+    If Android backup is turned on for your device, Android may include BeatDown's preferences
+    (section 2) in your device backup, which Google stores in your Google account. This is handled
+    by Android and Google under
+    <a href="https://policies.google.com/privacy" rel="noopener">Google's Privacy Policy</a>, not by us,
+    and we cannot access it. The countdown in progress is excluded from backups. You can turn
+    backups off in your device settings.
+  </p>
+
+  <h2>5. Permissions</h2>
+  <p>BeatDown asks Android for these permissions, only to run the timer:</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th scope="col">Permission</th><th scope="col">Why</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Notifications</td><td>Show the time left while the timer runs, and the "Time's up" alert with its Stop button. You can refuse it: the timer still works.</td></tr>
+        <tr><td>Alarms &amp; reminders (exact alarms)</td><td>Wake the phone exactly when the countdown reaches zero, even in battery-saving mode.</td></tr>
+        <tr><td>Foreground service</td><td>Keep the countdown running while the app is in the background.</td></tr>
+        <tr><td>Run at startup</td><td>Bring back a running countdown after the phone restarts.</td></tr>
+        <tr><td>Vibration, keep awake</td><td>Vibrate when time is up, and keep the beat playing while the screen is off.</td></tr>
+        <tr><td>View network connections</td><td>Added by the audio library BeatDown uses. It only lets the app check whether a network is available, which BeatDown does not use. It does not give internet access.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>BeatDown does not access your location, contacts, camera, microphone, photos or phone identifiers.</p>
+
+  <h2>6. Google Play</h2>
+  <p>
+    BeatDown is distributed through Google Play. After a few completed countdowns, the app may ask
+    Google Play to show its standard rating dialog. That dialog is run entirely by Google Play.
+    We do not see whether it was shown or what you answered. Any rating or review you post is
+    public on Google Play under your Google Play name.
+  </p>
+  <p>
+    Google may collect information when you download or use apps from Google Play, for example
+    crash and performance reports if you allowed your device to share usage and diagnostics data.
+    Google shares these reports with developers in aggregated form, without your name or contact
+    details. This is covered by
+    <a href="https://policies.google.com/privacy" rel="noopener">Google's Privacy Policy</a>.
+  </p>
+
+  <h2>7. Children</h2>
+  <p>
+    BeatDown is a general-audience app and is not directed at children under 13. Because the app
+    collects no personal data, it does not collect data from children either.
+  </p>
+
+  <h2>8. Your rights</h2>
+  <p>
+    Depending on where you live, privacy laws (such as the EU and UK General Data Protection
+    Regulation, Moroccan Law No. 09-08 on the protection of personal data, or California privacy
+    law) give you rights to access, correct or delete your personal data. Since we hold no personal
+    data about you, there is nothing for us to access or delete. Everything BeatDown stores is on
+    your device and under your control (section 2). If you have a question about your rights, you
+    can still contact us.
+  </p>
+
+  <h2>9. Security</h2>
+  <p>
+    BeatDown's data is kept in the app's private storage, which other apps cannot read, and is
+    protected by your device's own security (screen lock and encryption).
+  </p>
+
+  <h2>10. Changes to this policy</h2>
+  <p>
+    If a future version of BeatDown changes how it handles information, we will update this page
+    and its effective date before that version is released. If a change means the app would start
+    collecting personal data, we will say so clearly in the app before it happens.
+  </p>
+
+  <h2>11. Contact</h2>
+  <p>
+    nosamidev<br>
+    Email: <a href="mailto:kaylorgem@gmail.com">kaylorgem@gmail.com</a>
+  </p>
+
+  <footer>
+    See also the <a href="terms.html">Terms of Use</a>.
+  </footer>
+</main>
+</body>
+</html>
